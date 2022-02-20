@@ -7,7 +7,11 @@ import com.mongodb.*;
 import com.mongodb.client.*;
 import com.mongodb.client.MongoClient;
 import com.mongodb.util.JSON;
+import com.mongodb.client.model.Filters;
 import org.bson.Document;
+import org.bson.codecs.configuration.CodecRegistries;
+import org.bson.codecs.configuration.CodecRegistry;
+import org.bson.codecs.pojo.PojoCodecProvider;
 import org.bson.types.ObjectId;
 import Mapper.*;
 
@@ -16,36 +20,30 @@ import java.util.List;
 public class Mongo {
     public static MongoClient mongoClient;
     public static MongoDatabase database;
-    public static MongoCollection collection;
-    public static MongoCollection collectionChap;
+    public static  MongoCollection<dautruyen> collection;
+    public static MongoCollection<Chap> collectionChap;
     public void MongoStart(dautruyen dt,String url){
-//        mongoClient = new MongoClient("mongodb+srv://hieudan:01627798269Aa@cluster0.ygger.mongodb.net/myFirstDatabase?retryWrites=true&w=majority");
-//        database = mongoClient.getDatabase("NovelDB");
+        CodecRegistry pojoCodecRegistry = CodecRegistries.fromProviders(PojoCodecProvider.builder().automatic(true).build());
+        CodecRegistry codecRegistry = CodecRegistries.fromRegistries(MongoClientSettings.getDefaultCodecRegistry(), pojoCodecRegistry);
         ConnectionString connectionString = new ConnectionString("mongodb+srv://hieudan:01627798269Aa@cluster0.ygger.mongodb.net/myFirstDatabase?retryWrites=true&w=majority");
         MongoClientSettings settings = MongoClientSettings.builder()
                 .applyConnectionString(connectionString)
+                .codecRegistry(codecRegistry)
                 .build();
         mongoClient = MongoClients.create(settings);
         MongoDatabase database = mongoClient.getDatabase("NovelDB");
-        collection = database.getCollection("NovelCollection");
-        collectionChap = database.getCollection("ChapterCollection");
-        Gson gson = new Gson();
-        BasicDBObject obj = (BasicDBObject) JSON.parse(gson.toJson(dt));
-        Document sample = new Document(obj);
-        collection.insertOne(sample);
+        collection = database.getCollection("NovelCollection",dautruyen.class);
+        collectionChap = database.getCollection("ChapterCollection",Chap.class);
 
+        collection.insertOne(dt);
 
-        BasicDBObject fields = new BasicDBObject("tentruyen", dt.getTentruyen());
-        Document doc = (Document)collection.find(fields).first();
-
-        ObjectId id = new ObjectId("6211e2ec90f2720ec0e0983f");
+        dautruyen doc = collection.find(Filters.eq("tentruyen", dt.getTentruyen())).first();
+        ObjectId id = doc.getId();
         try {
             Crawler crawler = new Crawler(id,url);
             List<Chap> list = crawler.GetListChap();
             for(Chap tempchap :list){
-                obj = (BasicDBObject) JSON.parse(gson.toJson(tempchap));
-                sample = new Document(obj);
-                collectionChap.insertOne(sample);
+                collectionChap.insertOne(tempchap);
             }
         } catch (IOException e) {
             e.printStackTrace();

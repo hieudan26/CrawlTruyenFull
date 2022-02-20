@@ -18,7 +18,7 @@ public class MainClass {
 
     public static void main(String[] args) throws IOException {
 //        Helper helper = new Helper();
-        String url = "https://truyenfull.vn/dem-tuyet/";
+        String url = "https://truyenfull.vn/ban-long/";
         Crawler crawler = new Crawler(url);
 
 

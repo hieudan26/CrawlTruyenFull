@@ -24,6 +24,9 @@ public class Chap {
         this.chap_number = chap_number;
     }
 
+    public Chap() {
+    }
+
     public ObjectId getId() {
         return _id;
     }
@@ -32,11 +35,11 @@ public class Chap {
         this._id = _id;
     }
 
-    public ObjectId getdautruyenId() {
+    public ObjectId getDautruyenId() {
         return dautruyen_id;
     }
 
-    public void setdautruyenId(ObjectId dautruyen_id) {
+    public void setDautruyenId(ObjectId dautruyen_id) {
         this.dautruyen_id = dautruyen_id;
     }
 

@@ -28,6 +28,9 @@ public class dautruyen {
         this.luotdoc = 0;
     }
 
+    public dautruyen() {
+    }
+
     public ObjectId getId() {
         return _id;
     }

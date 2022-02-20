@@ -85,7 +85,7 @@ public class Crawler {
         String tacgia = document.select(".info a").get(0).text();
         String theloai;
         if(document.select(".info a").size() == 1){
-            theloai = "Chưa rõ";
+            theloai = "None";
 
         }
         else{
