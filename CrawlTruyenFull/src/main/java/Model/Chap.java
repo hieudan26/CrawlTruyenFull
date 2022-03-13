@@ -15,13 +15,13 @@ public class Chap {
     private ObjectId dautruyen_id;
     private String tenchap;
     private String content;
-    private int chap_number;
+    private int chapnumber;
 
-    public Chap(ObjectId idtruyen, String tenchap, String content, int chap_number) {
+    public Chap(ObjectId idtruyen, String tenchap, String content, int chapnumber) {
         this.dautruyen_id = idtruyen;
         this.tenchap = tenchap;
         this.content = content;
-        this.chap_number = chap_number;
+        this.chapnumber = chapnumber;
     }
 
     public Chap() {
@@ -59,11 +59,11 @@ public class Chap {
         this.content = content;
     }
 
-    public int getChap_number() {
-        return chap_number;
+    public int getChapnumber() {
+        return chapnumber;
     }
 
-    public void setChap_number(int chap_number) {
-        this.chap_number = chap_number;
+    public void setChapnumber(int chap_number) {
+        this.chapnumber = chap_number;
     }
 }

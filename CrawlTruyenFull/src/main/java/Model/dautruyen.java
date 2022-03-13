@@ -1,5 +1,6 @@
 package Model;
 
+import Ultil.VNCharacterUtils;
 import org.bson.types.ObjectId;
 
 public class dautruyen {
@@ -11,11 +12,16 @@ public class dautruyen {
     String trangthai;
     String hinhanh;
     String noidung;
+    String url;
+
+
+
+    String status;
     double danhgia;
     int soluongdanhgia;
     int luotdoc;
 
-    public dautruyen(String tentruyen, String tacgia, String theloai, String trangthai, String nguoidangtruyen, String hinhanh,String noidung) {
+    public dautruyen(String tentruyen, String tacgia, String theloai, String trangthai, String nguoidangtruyen, String hinhanh,String noidung,String url) {
         this.tentruyen = tentruyen;
         this.tacgia = tacgia;
         this.theloai = theloai;
@@ -26,6 +32,8 @@ public class dautruyen {
         this.soluongdanhgia = 0;
         this.danhgia = 0;
         this.luotdoc = 0;
+        this.status = "public";
+        this.url =url;
     }
 
     public dautruyen() {
@@ -119,5 +127,12 @@ public class dautruyen {
         this.luotdoc = luotdoc;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
 }

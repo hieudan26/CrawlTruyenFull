@@ -14,6 +14,7 @@ import javax.swing.JOptionPane;
 
 import Model.Chap;
 import Model.dautruyen;
+import Ultil.VNCharacterUtils;
 import org.bson.types.ObjectId;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -74,7 +75,7 @@ public class Crawler {
     private void printListChap() {
         System.out.println("List Chaps : ");
         for (int i = 0; i < listChap.size(); i++) {
-            System.out.println("Model.Chap : " + listChap.get(i).getChap_number());
+            System.out.println("Model.Chap : " + listChap.get(i).getChapnumber());
             System.out.println("" + listChap.get(i).getContent());
             System.out.println("===================================================");
         }
@@ -107,7 +108,8 @@ public class Crawler {
         noidung = Jsoup.clean(noidung, "", Whitelist.none(), new Document.OutputSettings().prettyPrint(false));
 
         String urlHinhAnh = document.select(".book img").attr("src");
-        dautruyen dt = new dautruyen(tentruyen,tacgia,theloai,trangthai,"admin",urlHinhAnh,noidung);
+        String url = VNCharacterUtils.removeAccent(tentruyen);
+        dautruyen dt = new dautruyen(tentruyen,tacgia,theloai,trangthai,"admin",urlHinhAnh,noidung,url);
         return dt;
     }
     // lấy tất cả chap 
@@ -131,6 +133,7 @@ public class Crawler {
     public String crawlContent(String pageURL) throws IOException {
 
         Document document = Jsoup.connect(pageURL).get();
+        System.out.println(pageURL);
         document.select("br").append("\\n");
         document.select("p").prepend("\\n\\n");
         String content = document.select("div#chapter-c").text().replaceAll("\\\\n", "\n");
